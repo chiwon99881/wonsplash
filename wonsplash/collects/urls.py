@@ -8,4 +8,5 @@ urlpatterns = [
     path("unlike/<int:image_id>/", view=views.UnLike.as_view(), name="unlike_image"),
     path("search/", view=views.Search.as_view(), name="search"),
     path("post/", view=views.Post.as_view(), name="post"),
+    path("detail/<int:image_id>/", view=views.Detail.as_view(), name="detail"),
 ]

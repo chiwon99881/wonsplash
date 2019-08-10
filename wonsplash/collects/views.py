@@ -110,3 +110,39 @@ class Post(APIView):
 
         else:
             return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class Detail(APIView):
+
+    def found_image(self, image_id):
+        try:
+            image = models.Image.objects.get(id=image_id)
+            return image
+        except models.Image.DoesNotExist:
+            return None
+
+    def get(self, request, image_id, format=None):
+
+        get_image = self.found_image(image_id)
+
+        if get_image is None:
+            return Response(data="해당 id의 이미지가 없습니다", status=status.HTTP_204_NO_CONTENT)
+        else:
+            serializer = serializers.ImageSerializer(get_image)
+
+            return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+    def delete(self, request, image_id, format=None):
+
+        user = request.user
+        get_image = self.found_image(image_id)
+
+        if get_image is None:
+            return Response(data="해당 id의 이미지가 없습니다", status=status.HTTP_204_NO_CONTENT)
+        else:
+            image_creator_id = models.Image.objects.get(id=image_id).creator.id
+            if image_creator_id != user.id:
+                return Response(data="권한이 없습니다", status=status.HTTP_401_UNAUTHORIZED)
+            else:
+                get_image.delete()
+                return Response(data="이미지가 삭제되었습니다", status=status.HTTP_200_OK)
