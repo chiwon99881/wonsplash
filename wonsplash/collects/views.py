@@ -72,3 +72,23 @@ class UnLike(APIView):
             return Response(data="좋아요가 취소되었습니다", status=status.HTTP_200_OK)
         except models.Like.DoesNotExist:
             return Response(data="좋아요가 반영되어 있지않습니다", status=status.HTTP_404_NOT_FOUND)
+
+
+class Search(APIView):
+
+    def get(self, request, format=None):
+
+        search_term = request.query_params.get('term', None)
+
+        if search_term is not None:
+
+            split_term = search_term.split(",")
+
+            tag_images = models.Image.objects.filter(tags__name__in=split_term).distinct()
+
+            serializer = serializers.ImageSerializer(tag_images, many=True)
+
+            return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+        else:
+            return Response(data="term을 입력해주세요", status=status.HTTP_400_BAD_REQUEST)
