@@ -8,12 +8,15 @@ class User(AbstractUser):
     """ User Model """
     # First Name and Last Name do not cover name patterns
     # around the globe.
-    avatar = models.ImageField(null=True ,blank=True)
+    avatar = models.ImageField(null=True, blank=True)
     followers = models.ManyToManyField("self", blank=True, symmetrical=False, related_name="followers_set")
     following = models.ManyToManyField("self", blank=True, symmetrical=False, related_name="following_set")
 
-    def get_absolute_url(self):
-        return reverse("users:detail", kwargs={"username": self.username})
-    
     def post_count(self):
-        return  self.images.all().count() 
+        return self.images.all().count()
+
+    def following_count(self):
+        return self.following.all().count()
+
+    def followers_count(self):
+        return self.followers.all().count()

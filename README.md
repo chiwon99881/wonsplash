@@ -6,7 +6,7 @@
 
 # all i have to do this project
 
-- [ ] user profile
+- [x] user profile
 - [ ] feed images
 - [ ] detail image
 - [ ] search images with tags

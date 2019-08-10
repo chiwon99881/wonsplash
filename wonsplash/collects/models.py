@@ -29,6 +29,9 @@ class Image(TimeStamp):
     def like_count(self):
         return self.likes.all().count()
 
+    class Meta:
+        ordering = ["-created_at"]
+
 
 class Like(TimeStamp):
 

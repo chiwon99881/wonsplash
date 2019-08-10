@@ -6,6 +6,9 @@ from . import models
 class UserProfileSerializer(serializers.ModelSerializer):
 
     images = collects_serializer.ImageSerializer(many=True, read_only=True)
+    post_count = serializers.ReadOnlyField()
+    following_count = serializers.ReadOnlyField()
+    followers_count = serializers.ReadOnlyField()
     is_following = serializers.SerializerMethodField()
 
     class Meta:
@@ -15,8 +18,9 @@ class UserProfileSerializer(serializers.ModelSerializer):
             "avatar",
             "username",
             "images",
-            "followers_set",
-            "following_set",
+            "following_count",
+            "followers_count",
+            "post_count",
             "is_following",
         ]
 
