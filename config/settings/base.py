@@ -72,10 +72,12 @@ THIRD_PARTY_APPS = [
     "allauth.account",
     "allauth.socialaccount",
     "rest_framework",
+    "taggit"
 ]
 
 LOCAL_APPS = [
     "wonsplash.users.apps.UsersConfig",
+    "wonsplash.collects.apps.CollectsConfig",
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
@@ -264,3 +266,4 @@ SOCIALACCOUNT_ADAPTER = "wonsplash.users.adapters.SocialAccountAdapter"
 
 # Your stuff...
 # ------------------------------------------------------------------------------
+TAGGIT_CASE_INSENSITIVE = True
