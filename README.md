@@ -4,7 +4,7 @@
 - pipenv --three
 - django==2.2.4
 
-# all i have to do this project
+# all i have to do
 
 - [x] user profile
 - [x] feed images
@@ -13,7 +13,7 @@
 - [x] like image
 - [x] unlike image
 - [x] post image
-- [ ] edit profile
+- [x] edit profile
 - [ ] notification
 - [ ] like image collections
 - [ ] follow

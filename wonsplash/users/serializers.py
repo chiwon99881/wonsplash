@@ -16,6 +16,9 @@ class UserProfileSerializer(serializers.ModelSerializer):
         fields = [
             "id",
             "avatar",
+            "first_name",
+            "last_name",
+            "email",
             "username",
             "images",
             "following_count",
@@ -30,3 +33,15 @@ class UserProfileSerializer(serializers.ModelSerializer):
             if obj in request.user.following.all():
                 return True
         return False
+
+
+class EditSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = models.User
+        fields = [
+            "avatar",
+            "first_name",
+            "last_name",
+            "email",
+        ]
