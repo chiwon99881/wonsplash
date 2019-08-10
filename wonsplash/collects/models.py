@@ -40,3 +40,7 @@ class Like(TimeStamp):
 
     image = models.ForeignKey(Image, on_delete=models.CASCADE, related_name="likes")
     creator = models.ForeignKey(user_model.User, on_delete=models.CASCADE, related_name="likes")
+
+    @property
+    def natural_time(self):
+        return naturaltime(self.created_at)

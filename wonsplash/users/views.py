@@ -2,6 +2,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from . import serializers, models
+from wonsplash.collects import models as collects_model
+from wonsplash.collects import serializers as collects_serializer
 
 
 class Profile(APIView):
@@ -46,3 +48,20 @@ class Profile(APIView):
                     return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
             else:
                 return Response(data="권한이 없습니다", status=status.HTTP_401_UNAUTHORIZED)
+
+
+class MyLikes(APIView):
+
+    def get(self, request, format=None):
+
+        user = request.user
+
+        try:
+            mylikes = models.User.objects.get(id=user.id).likes.all().order_by('-created_at')
+
+            serializer = collects_serializer.LikeSerializer(mylikes, many=True)
+
+            return Response(data=serializer.data, status=status.HTTP_200_OK)
+        except models.User.DoesNotExist:
+
+            return Response(data="request에 user가 없습니다", status=status.HTTP_400_BAD_REQUEST)

@@ -15,5 +15,5 @@
 - [x] post image
 - [x] edit profile
 - [ ] notification
-- [ ] like image collections
+- [x] like image collections
 - [ ] follow

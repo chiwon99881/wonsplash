@@ -44,3 +44,16 @@ class PostSerializer(TaggitSerializer, serializers.ModelSerializer):
             "file",
             "tags",
         ]
+
+
+class LikeSerializer(serializers.ModelSerializer):
+
+    image = ImageSerializer()
+
+    class Meta:
+        model = models.Like
+        fields = [
+            "id",
+            "image",
+            "natural_time",
+        ]

@@ -3,5 +3,6 @@ from . import views
 
 app_name = "users"
 urlpatterns = [
-    path("<str:username>/", view=views.Profile.as_view(), name="user_profile")
+    path("mylikes/", view=views.MyLikes.as_view(), name="user_likes"),
+    path("<str:username>/", view=views.Profile.as_view(), name="user_profile"),
 ]
