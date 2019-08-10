@@ -16,7 +16,7 @@ class TimeStamp(models.Model):
 
 class Image(TimeStamp):
 
-    file = models.ImageField()
+    file = models.CharField(max_length=10000, null=False)
     creator = models.ForeignKey(user_model.User, on_delete=models.CASCADE, related_name="images")
     views = models.IntegerField(null=True, blank=True, default=0)
     tags = TaggableManager()

@@ -64,7 +64,7 @@ class UnLike(APIView):
 
         get_image = self.found_image(image_id)
         if get_image is None:
-            return Response(data="해당 id의 이미지가 존재하지 않습니다", status=HTTP_304_NOT_MODIFIED)
+            return Response(data="해당 id의 이미지가 존재하지 않습니다", status=status.HTTP_304_NOT_MODIFIED)
 
         try:
             exist_like = models.Like.objects.get(creator=user, image=get_image)
@@ -92,3 +92,21 @@ class Search(APIView):
 
         else:
             return Response(data="term을 입력해주세요", status=status.HTTP_400_BAD_REQUEST)
+
+
+class Post(APIView):
+
+    def post(self, request, format=None):
+
+        user = request.user
+
+        serializer = serializers.PostSerializer(data=request.data)
+
+        if serializer.is_valid():
+
+            serializer.save(creator=user)
+
+            return Response(data=serializer.data, status=status.HTTP_201_CREATED)
+
+        else:
+            return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)

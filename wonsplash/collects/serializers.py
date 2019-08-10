@@ -31,3 +31,16 @@ class ImageSerializer(serializers.ModelSerializer):
             "creator",
             "tags",
         ]
+
+
+class PostSerializer(TaggitSerializer, serializers.ModelSerializer):
+
+    tags = TagListSerializerField()
+
+    class Meta:
+        model = models.Image
+        fields = [
+            "id",
+            "file",
+            "tags",
+        ]
