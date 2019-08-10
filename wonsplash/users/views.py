@@ -1,50 +1,27 @@
-from django.contrib.auth import get_user_model
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.urls import reverse
-from django.views.generic import DetailView, RedirectView, UpdateView
-from django.contrib import messages
-from django.utils.translation import ugettext_lazy as _
-
-User = get_user_model()
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from . import serializers, models
 
 
-class UserDetailView(LoginRequiredMixin, DetailView):
+class Profile(APIView):
 
-    model = User
-    slug_field = "username"
-    slug_url_kwarg = "username"
+    def get_user(self, username):
 
+        try:
+            found_user = models.User.objects.get(username=username)
+            return found_user
+        except models.User.DoesNotExist:
+            return None
 
-user_detail_view = UserDetailView.as_view()
+    def get(self, request, username, format=None):
 
+        found_user = self.get_user(username)
 
-class UserUpdateView(LoginRequiredMixin, UpdateView):
+        if found_user is None:
 
-    model = User
-    fields = ["name"]
+            return Response(status=status.HTTP_404_NOT_FOUND)
 
-    def get_success_url(self):
-        return reverse("users:detail", kwargs={"username": self.request.user.username})
+        serializer = serializers.UserProfileSerializer(found_user, context={"request": request})
 
-    def get_object(self):
-        return User.objects.get(username=self.request.user.username)
-
-    def form_valid(self, form):
-        messages.add_message(
-            self.request, messages.INFO, _("Infos successfully updated")
-        )
-        return super().form_valid(form)
-
-
-user_update_view = UserUpdateView.as_view()
-
-
-class UserRedirectView(LoginRequiredMixin, RedirectView):
-
-    permanent = False
-
-    def get_redirect_url(self):
-        return reverse("users:detail", kwargs={"username": self.request.user.username})
-
-
-user_redirect_view = UserRedirectView.as_view()
+        return Response(data=serializer.data, status=status.HTTP_200_OK)

@@ -4,6 +4,7 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
+autopep8 = "*"
 
 [packages]
 pytz = "==2019.2"
@@ -36,6 +37,8 @@ Werkzeug = "==0.14.1"
 Sphinx = "==2.1.2"
 django_coverage_plugin = "==1.6.0"
 django-taggit = "*"
+taggit-serializer = "*"
+django-taggit-serializer = "*"
 
 [requires]
 python_version = "3.7"
