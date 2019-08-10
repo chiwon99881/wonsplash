@@ -65,3 +65,33 @@ class MyLikes(APIView):
         except models.User.DoesNotExist:
 
             return Response(data="request에 user가 없습니다", status=status.HTTP_400_BAD_REQUEST)
+
+
+class Following(APIView):
+
+    def found_user(self, user_id):
+
+        try:
+            user = models.User.objects.get(id=user_id)
+            return user
+        except models.User.DoesNotExist:
+            return None
+
+    def post(self, request, user_id, format=None):
+        user = request.user
+        get_user = self.found_user(user_id)
+
+        if get_user is None:
+            return Response(data="해당 id의 유저가 존재하지 않습니다", status=status.HTTP_204_NO_CONTENT)
+        else:
+            try:
+                already = models.User.objects.get(id=user.id, following__id=get_user.id)
+                return Response(data="이미 팔로우중", status=status.HTTP_304_NOT_MODIFIED)
+            except models.User.DoesNotExist:
+                user.following.add(get_user)
+                get_user.followers.add(user)
+
+                user.save()
+                get_user.save()
+
+                return Response(data="팔로잉 성공", status=status.HTTP_200_OK)

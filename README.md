@@ -16,4 +16,5 @@
 - [x] edit profile
 - [ ] notification
 - [x] like image collections
-- [ ] follow
+- [x] follow
+- [ ] unfollow
