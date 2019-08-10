@@ -16,7 +16,6 @@ class Profile(APIView):
 
     def get(self, request, username, format=None):
 
-        print(request.body)
         found_user = self.get_user(username)
 
         if found_user is None:

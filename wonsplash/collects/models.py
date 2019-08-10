@@ -21,6 +21,9 @@ class Image(TimeStamp):
     views = models.IntegerField(null=True, blank=True, default=0)
     tags = TaggableManager()
 
+    def __str__(self):
+        return '이미지: {}'.format(self.file)
+
     @property
     def natural_time(self):
         return naturaltime(self.created_at)
