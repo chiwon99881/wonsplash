@@ -72,8 +72,11 @@ THIRD_PARTY_APPS = [
     "allauth.account",
     "allauth.socialaccount",
     "rest_framework",
+    "rest_framework.authtoken",
     "taggit",
     "taggit_serializer",
+    "rest_auth",
+    "rest_auth.registration"
 ]
 
 LOCAL_APPS = [
@@ -280,6 +283,7 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.BasicAuthentication',
     ),
 }
+REST_USE_JWT = True
 
 JWT_AUTH = {
     'JWT_AUTH_HEADER_PREFIX': 'Bearer',
