@@ -4,6 +4,8 @@ from rest_framework import status
 from . import serializers, models
 from wonsplash.collects import models as collects_model
 from wonsplash.collects import serializers as collects_serializer
+from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
+from rest_auth.registration.views import SocialLoginView
 
 
 class Profile(APIView):
@@ -124,3 +126,7 @@ class UnFollowing(APIView):
             return Response(data="언팔 성공", status=status.HTTP_200_OK)
         except models.User.DoesNotExist:
             return Response(data="팔로우중이지 않습니다", status=status.HTTP_400_BAD_REQUEST)
+
+
+class FacebookLogin(SocialLoginView):
+    adapter_class = FacebookOAuth2Adapter

@@ -7,4 +7,5 @@ urlpatterns = [
     path("<str:username>/", view=views.Profile.as_view(), name="user_profile"),
     path("follow/<int:user_id>/", view=views.Following.as_view(), name="follow"),
     path("unfollow/<int:user_id>/", view=views.UnFollowing.as_view(), name="unfollow"),
+    path("login/facebook/", views.FacebookLogin.as_view(), name="fb_login"),
 ]

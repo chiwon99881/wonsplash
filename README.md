@@ -18,4 +18,9 @@
 - [x] follow
 - [x] unfollow
 - [x] jwt
-- [ ] facebook login
+- [x] facebook login
+
+# Facebook Login
+
+- [x] create app at facebook.developer.com
+- [x] create social application at admin pannel
