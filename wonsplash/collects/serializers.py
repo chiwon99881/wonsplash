@@ -19,6 +19,7 @@ class ImageSerializer(serializers.ModelSerializer):
 
     tags = TagListSerializerField()
     creator = UserSumSerializer()
+    is_liked = serializers.SerializerMethodField()
 
     class Meta:
         model = models.Image
@@ -30,7 +31,17 @@ class ImageSerializer(serializers.ModelSerializer):
             "like_count",
             "creator",
             "tags",
+            "is_liked",
         ]
+
+    def get_is_liked(self, obj):
+        if "request" in self.context:
+            request = self.context['request']
+            try:
+                models.Like.objects.get(image=obj, creator=request.user)
+                return True
+            except models.Like.DoesNotExist:
+                return False
 
 
 class PostSerializer(TaggitSerializer, serializers.ModelSerializer):

@@ -13,7 +13,7 @@ class Feed(APIView):
         try:
             images = models.Image.objects.all()
 
-            serializer = serializers.ImageSerializer(images, many=True)
+            serializer = serializers.ImageSerializer(images, many=True, context={"request": request})
 
             return Response(data=serializer.data, status=status.HTTP_200_OK)
 
@@ -86,7 +86,7 @@ class Search(APIView):
 
             tag_images = models.Image.objects.filter(tags__name__in=split_term).distinct()
 
-            serializer = serializers.ImageSerializer(tag_images, many=True)
+            serializer = serializers.ImageSerializer(tag_images, many=True, context={"request": request})
 
             return Response(data=serializer.data, status=status.HTTP_200_OK)
 
@@ -128,7 +128,7 @@ class Detail(APIView):
         if get_image is None:
             return Response(data="해당 id의 이미지가 없습니다", status=status.HTTP_204_NO_CONTENT)
         else:
-            serializer = serializers.ImageSerializer(get_image)
+            serializer = serializers.ImageSerializer(get_image, context={"request": request})
 
             return Response(data=serializer.data, status=status.HTTP_200_OK)
 

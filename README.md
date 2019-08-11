@@ -14,7 +14,7 @@
 - [x] unlike image
 - [x] post image
 - [x] edit profile
-- [ ] notification
 - [x] like image collections
 - [x] follow
-- [ ] unfollow
+- [x] unfollow
+- [ ] facebook login
