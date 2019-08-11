@@ -17,4 +17,5 @@
 - [x] like image collections
 - [x] follow
 - [x] unfollow
+- [x] jwt
 - [ ] facebook login
