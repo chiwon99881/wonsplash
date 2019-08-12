@@ -77,7 +77,8 @@ THIRD_PARTY_APPS = [
     "taggit",
     "taggit_serializer",
     "rest_auth",
-    "rest_auth.registration"
+    "rest_auth.registration",
+    "corsheaders"  # To accept port 3000
 ]
 
 LOCAL_APPS = [
@@ -129,6 +130,7 @@ AUTH_PASSWORD_VALIDATORS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -144,7 +146,10 @@ STATIC_ROOT = str(ROOT_DIR("staticfiles"))
 # https://docs.djangoproject.com/en/dev/ref/settings/#static-url
 STATIC_URL = "/static/"
 # https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#std:setting-STATICFILES_DIRS
-STATICFILES_DIRS = [str(APPS_DIR.path("static"))]
+STATICFILES_DIRS = [
+    str(APPS_DIR.path("static")),
+    str(ROOT_DIR.path("wonsplash-web", "build", "static"))
+]
 # https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#staticfiles-finders
 STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.FileSystemFinder",
@@ -282,3 +287,5 @@ REST_USE_JWT = True
 JWT_AUTH = {
     'JWT_AUTH_HEADER_PREFIX': 'Bearer',
 }
+
+CORS_ORIGIN_ALLOW_ALL = True

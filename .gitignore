@@ -282,5 +282,5 @@ pip-selfcheck.json
 wonsplash/media/
 
 .pytest_cache/
-
+wonsplash-web
 
