@@ -129,7 +129,8 @@ class Detail(APIView):
             return Response(data="해당 id의 이미지가 없습니다", status=status.HTTP_204_NO_CONTENT)
         else:
             serializer = serializers.ImageSerializer(get_image, context={"request": request})
-
+            get_image.views = get_image.views + 1
+            get_image.save()
             return Response(data=serializer.data, status=status.HTTP_200_OK)
 
     def delete(self, request, image_id, format=None):
