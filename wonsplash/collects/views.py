@@ -13,7 +13,12 @@ class Feed(APIView):
         try:
             images = models.Image.objects.all()
 
-            serializer = serializers.ImageSerializer(images, many=True, context={"request": request})
+            def get_key(image):
+                return image.created_at
+
+            sorted_images = sorted(images, key=get_key, reverse=True)
+
+            serializer = serializers.ImageSerializer(sorted_images, many=True, context={"request": request})
 
             return Response(data=serializer.data, status=status.HTTP_200_OK)
 

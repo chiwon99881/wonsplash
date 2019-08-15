@@ -61,7 +61,7 @@ class MyLikes(APIView):
         try:
             mylikes = models.User.objects.get(id=user.id).likes.all().order_by('-created_at')
 
-            serializer = collects_serializer.LikeSerializer(mylikes, many=True)
+            serializer = collects_serializer.LikeSerializer(mylikes, many=True, context={"request": request})
 
             return Response(data=serializer.data, status=status.HTTP_200_OK)
         except models.User.DoesNotExist:
