@@ -3,6 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from . import models, serializers
+from wonsplash.users import models as user_models
 # Create your views here.
 
 
@@ -24,6 +25,34 @@ class Feed(APIView):
 
         except models.Image.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+class MyFollowCollects(APIView):
+
+    def found_user(self, username):
+
+        try:
+            user = user_models.User.objects.get(username=username)
+            return user
+        except user_models.User.DoesNotExist:
+            return None
+
+    def get(self, request, username, format=None):
+
+        get_user = self.found_user(username)
+
+        if get_user is None:
+            return Response(data="해당 닉네임의 유저가 존재하지 않습니다", status=status.HTTP_204_NO_CONTENT)
+        else:
+            user_followings = get_user.following.all()
+            following_images = []
+            for following in user_followings:
+                images = following.images.all()
+                for image in images:
+                    following_images.append(image)
+
+            serializer = serializers.ImageSerializer(following_images, many=True, context={"request": request})
+            return Response(data=serializer.data, status=status.HTTP_200_OK)
 
 
 class Like(APIView):

@@ -9,4 +9,5 @@ urlpatterns = [
     path("search/", view=views.Search.as_view(), name="search"),
     path("post/", view=views.Post.as_view(), name="post"),
     path("detail/<int:image_id>/", view=views.Detail.as_view(), name="detail"),
+    path("<str:username>/followings/", view=views.MyFollowCollects.as_view(), name="followings_images"),
 ]
