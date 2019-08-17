@@ -69,6 +69,34 @@ class MyLikes(APIView):
             return Response(data="request에 user가 없습니다", status=status.HTTP_400_BAD_REQUEST)
 
 
+class MyFollowCollects(APIView):
+
+    def found_user(self, username):
+
+        try:
+            user = models.User.objects.get(username=username)
+            return user
+        except models.User.DoesNotExist:
+            return None
+
+    def get(self, request, username, format=None):
+
+        get_user = self.found_user(username)
+
+        if get_user is None:
+            return Response(data="해당 닉네임의 유저가 존재하지 않습니다", status=status.HTTP_204_NO_CONTENT)
+        else:
+            user_followings = get_user.following.all()
+            following_images = []
+            for following in user_followings:
+                images = following.images.all()
+                for image in images:
+                    following_images.append(image)
+
+            serializer = collects_serializer.ImageSerializer(following_images, many=True)
+            return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+
 class Following(APIView):
 
     def found_user(self, user_id):
